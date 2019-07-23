@@ -29,6 +29,8 @@ String device_id = "FeatherM0-";  // this will be used with Mac address for uniq
 long lastReconnectAttempt = 0;
 long now;
 
+int loopfreq = 0;
+
 //--------------------------------------------------
 //LED SETUP
 #include <Adafruit_NeoPixel.h>
@@ -48,13 +50,13 @@ long now;
 // example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-int delayval = 500; // delay for half a second
+int delayval = 100; // delay for half a second
 int walls[] = {1,4,7,20,23,26,29,32,35,38,39,44,48,51,60,63,67,72,73,74,75,76,79,82,83,88,107,112,113,116,119,120,121,122,123,124,125,128,138,141,151,156,157,158,161,164,165,166,174,189};
 
 int userLocation;
 int xLoc;
 int yLoc;
-String command = "right";
+String command = "left";
 int myArray[14][14];
 //-----------------------------------------------------------
 
@@ -260,6 +262,8 @@ void loop() {
 //  pixels.setPixelColor(userLocation, pixels.Color(150,0,0)); 
 //  pixels.show();
 //  delay(delayval);
+
+  
    if (userLocation != 84 && userLocation != 111){ //Game isn't over yet
       int val = 0;
       int newXLoc;
@@ -288,6 +292,7 @@ void loop() {
           newYLoc = yLoc;
           val = myArray[newXLoc][yLoc];
         }
+        //›command = "neutral";
       }
       if (command == "left"){
         newYLoc = yLoc - 1;
@@ -333,8 +338,8 @@ void loop() {
         if (val != userLocation){ //Moving userLocation to val
            //turn off LED at old userLocation
            pixels.setPixelColor(userLocation, pixels.Color(0,0,0)); 
-           pixels.show();
-           delay(delayval);
+        //   pixels.show();
+         //  delay(delayval);
 
            //turn on LED at new userLocation(val);
            userLocation = val;
@@ -368,6 +373,8 @@ void loop() {
      pixels.show();
      delay(delayval);
    }
+   
+   
  }
  //------------------------------------------------------------------------------------
  boolean reconnect() {
